@@ -5,7 +5,39 @@ import './styles.css';
 export default function App() {
   const [original, setOriginal] = useState([]);
   const [characters, setCharacters] = useState([]);
-  // const [namesLine, setNamesLine] = useState('');
+  const [namesLine, setNamesLine] = useState('');
+
+    function handleReset (){
+        console.log("Нажал!");
+        setCharacters(original)
+        setNamesLine("")
+    };
+
+    function handleMap () {
+        const result = characters.map((character) => ({...character, name: character.name.toUpperCase()}))
+        setCharacters(result)
+    };
+
+    function handleFilter (){
+        const filtered = characters.filter((character) => character.status === 'Alive')
+        setCharacters(filtered)
+    };
+
+    function handleSlice() {
+        const sliced = characters.slice(0,5)
+        setCharacters(sliced)
+    };
+
+    function handleConcat () {
+        const concatenated = characters.concat(guests)
+        setCharacters(concatenated)
+    };
+
+    function handleJoin (){
+        const joined = characters.map((character) => character.name).join(",")
+        setNamesLine(joined)
+    };
+
 
   useEffect(() => {
     fetch(API_URL)
@@ -38,18 +70,18 @@ export default function App() {
           Исходных: {original.length} · Сейчас: {characters.length}
         </span>
 
-        <button className="btn btn--reset">Сбросить</button>
+        <button className="btn btn--reset" onClick={handleReset}>Сбросить</button>
       </header>
 
       <section className="group">
         <h2 className="group__title">Не мутируют</h2>
 
         <div className="group__buttons">
-          <button className="btn">map: КАПСОМ</button>
-          <button className="btn">filter: только Alive</button>
-          <button className="btn">slice: первые 5</button>
-          <button className="btn">concat: +гости</button>
-          <button className="btn">join: имена строкой</button>
+          <button className="btn" onClick={handleMap}>map: КАПСОМ</button>
+          <button className="btn" onClick={handleFilter}>filter: только Alive</button>
+          <button className="btn" onClick={handleSlice}>slice: первые 5</button>
+          <button className="btn" onClick={handleConcat}>concat: +гости</button>
+          <button className="btn" onClick={handleJoin}>join: имена строкой</button>
         </div>
       </section>
 
@@ -65,9 +97,19 @@ export default function App() {
         </div>
       </section>
 
-      {/* строка из join: <p className="names">{namesLine}</p> */}
+      <p className="names">{namesLine}</p>
 
-      <ul className="list">{/* карточки через .map() */}</ul>
+        <ul className="list">
+            {characters.map((item) => (
+                <li key={item.id} className="card">
+                    <img src={item.image} alt={item.name} className="card__image" />
+                    <div className="card__info">
+                        <h3 className="card__name">{item.name}</h3>
+                        <p className="card__status">{item.status} · {item.species}</p>
+                    </div>
+                </li>
+            ))}
+        </ul>
     </div>
   );
 }
