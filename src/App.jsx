@@ -5,7 +5,7 @@ import './styles.css';
 export default function App() {
   const [original, setOriginal] = useState([]);
   const [characters, setCharacters] = useState([]);
-  const [namesLine, setNamesLine] = useState('');
+  // const [namesLine, setNamesLine] = useState('');
 
   useEffect(() => {
     fetch(API_URL)
