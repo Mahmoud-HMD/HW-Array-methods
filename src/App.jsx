@@ -38,8 +38,37 @@ export default function App() {
         setNamesLine(joined)
     };
 
+    function handlePush() {
+        const copy = [...characters];
+        copy.push(guests[0]);
+        setCharacters(copy);
+    };
 
-  useEffect(() => {
+    function handlePop() {
+        const copy = [...characters];
+        copy.pop(guests[0]);
+        setCharacters(copy);
+    };
+
+    function handleSplice () {
+        const copy = [...characters]
+        copy.splice(10, 0, guests[1])
+        setCharacters(copy)
+    };
+
+    function handleSort () {
+        const copy = [...characters]
+        copy.sort((a, b) => a.name.localeCompare(b.name))
+        setCharacters(copy)
+    };
+
+    function handleReverse () {
+        const copy = [...characters]
+        copy.reverse()
+        setCharacters(copy)
+    };
+
+        useEffect(() => {
     fetch(API_URL)
       .then(response => response.json())
       .then(data => {
@@ -89,11 +118,11 @@ export default function App() {
         <h2 className="group__title">Мутируют (только на копии!)</h2>
 
         <div className="group__buttons">
-          <button className="btn btn--danger">push: добавить гостя</button>
-          <button className="btn btn--danger">pop: убрать последнего</button>
-          <button className="btn btn--danger">splice: вставить в середину</button>
-          <button className="btn btn--danger">sort: по имени</button>
-          <button className="btn btn--danger">reverse: наоборот</button>
+          <button className="btn btn--danger" onClick={handlePush}>push: добавить гостя</button>
+          <button className="btn btn--danger" onClick={handlePop}>pop: убрать последнего</button>
+          <button className="btn btn--danger" onClick={handleSplice}>splice: вставить в середину</button>
+          <button className="btn btn--danger" onClick={handleSort}>sort: по имени</button>
+          <button className="btn btn--danger" onClick={handleReverse}>reverse: наоборот</button>
         </div>
       </section>
 
